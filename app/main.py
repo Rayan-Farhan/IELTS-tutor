@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, Form
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from app.asr import transcribe_audio
 from app.chat import get_response
@@ -8,7 +9,23 @@ import os
 
 app = FastAPI(title="AI IELTS Tutor", version="1.0")
 
+# Configure CORS to allow frontend to connect
+app.add_middleware(
+    CORSMiddleware,
+    # Local dev: allow all origins to prevent CORS-related fetch failures.
+    # (We are not using cookies/credentials here.)
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 os.makedirs("data/output_audio", exist_ok=True)
+
+
+@app.get("/api/health")
+async def health_check():
+    return {"ok": True}
 
 
 @app.post("/api/asr/transcribe")
@@ -28,11 +45,14 @@ async def chat_api(
     response_text = get_response(session_id, user_input)
 
     audio_path = speak_text(response_text, session_id)
+    
+    # Return just the filename for the audio file
+    filename = os.path.basename(audio_path) if audio_path else None
 
     return {
         "session_id": session_id,
         "response": response_text,
-        "audio_file": audio_path
+        "audio_file": filename
     }
 
 
