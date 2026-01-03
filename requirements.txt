@@ -3,3 +3,4 @@ uvicorn
 openai-whisper
 torch
 gTTS
+python-multipart
