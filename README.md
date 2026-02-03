@@ -6,6 +6,10 @@ A local-first web app for practicing spoken English. Features a React frontend w
 
 **Features:** Browser audio recording • Speech-to-text transcription • AI tutor feedback • TTS responses • Session management • Standalone transcription tool
 
+<img width="1892" height="842" alt="image" src="https://github.com/user-attachments/assets/d8864d80-f45e-4c15-a8eb-452b656b07f4" />
+
+<img width="1894" height="848" alt="image" src="https://github.com/user-attachments/assets/819750b9-4ae0-46fd-aca8-b34f5f52fa37" />
+
 
 ## Requirements
 
