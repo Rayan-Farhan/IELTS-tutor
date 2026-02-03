@@ -6,7 +6,7 @@ export class ApiError extends Error {
   constructor(
     message: string,
     public status?: number,
-    public data?: any
+    public data?: unknown
   ) {
     super(message);
     this.name = 'ApiError';
@@ -42,7 +42,7 @@ async function request<T>(
       return await response.json();
     }
     
-    return response as any;
+    return response as unknown as T;
   } catch (error) {
     if (error instanceof ApiError) {
       throw error;
@@ -60,7 +60,7 @@ export const apiClient = {
     return request<T>(endpoint, { ...options, method: 'GET' });
   },
 
-  post<T>(endpoint: string, data?: any, options?: RequestInit): Promise<T> {
+  post<T>(endpoint: string, data?: BodyInit, options?: RequestInit): Promise<T> {
     return request<T>(endpoint, {
       ...options,
       method: 'POST',
